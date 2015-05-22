@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>景点选择主界面</title>
+    <!-- Bootstrap -->
+    <js href="__PUBLIC__/assets/js/jquery.js"/>
+    <css href="__PUBLIC__/assets/css/bootstrap.min.css"/>
+    <js href="__PUBLIC__/assets/js/bootstrap.min.js"/>
+    <style type="text/css">
+        #returnButton {
+            width: 40px;
+            height: 40px;
+            margin-top: 20px;
+        }
+        #headingOne {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 标题栏 -->
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="Home/MainPage">
+                    <img id="returnButton" src="__PUBLIC__/assets/img/return.png"/>
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <h2 id="pageTitle" class="text-center"></h2>
+            </div>
+        </div>
+        </br>
+        <!-- 音频条目 -->
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          景点音频介绍
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <input class="btn btn-default col-xs-6" id="playMusic" type="button" value="播放音频">
+                        <input class="btn btn-default col-xs-6" id="downloadMusic" type="button" value="下载音频">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 景点介绍 -->
+        <div >
+            <img class="col-xs-6 col-xs-offset-3" id="jdImage">
+            <article id="jdArticle">
+            </article>
+        </div>
+        <!-- 页脚 -->
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            console.log("it ex");
+            $.getJSON("loadSubpage.php",{id : "1234"},function(data){
+                console.log(data);
+                $("#pageTitle").text(data["title"]);
+                $("#jdImage").attr("src") = data["imgUrl"];
+                $("#jdArticle").text(data["articleText"]);
+            });
+        })
+    </script>
+</body>
+
+</html>
