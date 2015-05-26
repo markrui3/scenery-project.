@@ -11,7 +11,6 @@ return array(
     // 'DB_CHARSET'=> 'utf8', // 字符集
 
     //'配置项'=>'配置值'
-    // 'APP_MODULE_LIST' => 'Home',
     'DEFAULT_MODULE' => 'Home',
     'DEFAULT_CHARSET' => 'utf-8', // 默认输出编码
     'URL_MODEL'          => '2', //URL模式
