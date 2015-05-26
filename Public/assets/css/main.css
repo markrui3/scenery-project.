@@ -1,9 +1,16 @@
 body{
 	font-family: "microsoft yahei";
 }
+
+a{
+	color: black;
+}
+
 ul.dropdown-menu li {
 	text-align: center;
 }
+
+
 .header{
 	padding-top: 0.2em;
 	padding-bottom: 0.2em;
@@ -12,4 +19,63 @@ ul.dropdown-menu li {
 	font-size: 2em;
 	text-align: center;
 	background-color: #3498db;
+}
+
+.list{
+	font-size: 1.2em;
+	width: 100%;
+	height: auto;
+}
+
+.list .item{
+	border-bottom: 1px solid #eee;
+	width: 95%;
+	margin-left: 2.5%;
+	height: 3em;
+	vertical-align: middle;
+	padding-top: 0.6em;
+	padding-left: 2em;
+}
+
+.distpicker-area{
+	border-bottom: 1px solid #eee;
+	padding-bottom: 0.5em;
+}
+
+.sub-header{
+	font-size: 1.5em;
+	padding-top: 0.2em;
+	padding-left: 1em;
+	padding-bottom: 0.2em;
+	border-bottom: 1px solid #eee;
+	color: #3498db;
+}
+
+.header-left-btn{
+	left: 0.5em;
+	position: absolute;
+	font-size: 0.8em;
+	vertical-align: middle;
+	top: 0.6em;
+}
+
+.img-header{
+	width: 100%;
+	height: auto;
+}
+
+.article{
+	font-size: 1.2em;
+	padding-top: 0.5em;
+	width: 95%;
+	padding-left: 2.5%;
+}
+
+.sub-btn-group{
+	width: 100%;
+	font-size: 1.2em;
+}
+
+.sub-btn-group .btn{
+	width: 50%;
 }

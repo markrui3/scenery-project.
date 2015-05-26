@@ -9,4 +9,8 @@ class IndexController extends Controller {
     public function detail(){
     	$this->display('detail');
     }
+
+    public function loclist(){
+    	$this->display('Index/list');
+    }
 }
