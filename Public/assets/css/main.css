@@ -1,0 +1,15 @@
+body{
+	font-family: "microsoft yahei";
+}
+ul.dropdown-menu li {
+	text-align: center;
+}
+.header{
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	color: white;
+	width: 100%;
+	font-size: 2em;
+	text-align: center;
+	background-color: #3498db;
+}

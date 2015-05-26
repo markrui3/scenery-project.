@@ -20,6 +20,11 @@
         #headingOne {
             text-align: center;
         }
+
+        #jdImage {
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 
@@ -57,15 +62,15 @@
         </div>
         <!-- 景点介绍 -->
         <div >
-            <img class="col-xs-6 col-xs-offset-3" id="jdImage">
+            <img src="http://fakeimg.pl/400x50/" id="jdImage">
             <article id="jdArticle">
+                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
             </article>
         </div>
         <!-- 页脚 -->
     </div>
     <script type="text/javascript">
-        $(function(){
-            console.log("it ex");
+        $(function(){            console.log("it ex");
             $.getJSON("loadSubpage.php",{id : "1234"},function(data){
                 console.log(data);
                 $("#pageTitle").text(data["title"]);

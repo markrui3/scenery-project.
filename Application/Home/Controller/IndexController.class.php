@@ -3,6 +3,10 @@ namespace Home\Controller;
 use Think\Controller;
 class IndexController extends Controller {
     public function index(){
-        $this->show('home Controller');
+        $this->display('index');
+    }
+
+    public function detail(){
+    	$this->display('detail');
     }
 }
