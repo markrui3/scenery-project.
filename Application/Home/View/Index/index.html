@@ -1,72 +1,87 @@
-<include file="Index/header"/>
+<include file="Index/header" />
+
 <body>
-<header class="header">景点</header>
-<br>
-<!-- 搜索框 -->
-<div class="">
-    <div class="col-lg-12">
-        <div class="input-group">
-            <input id="searchInput" type="text" class="form-control" placeholder="搜索景点...">
-            <span class="input-group-btn">
+    <header class="header">景点</header>
+    <br>
+    <!-- 搜索框 -->
+    <div class="">
+        <div class="col-lg-12">
+            <div class="input-group">
+                <input id="searchInput" type="text" class="form-control" placeholder="搜索景点...">
+                <span class="input-group-btn">
                 <button id="searchButton" class="btn btn-default" type="button">搜索</button>
             </span>
+            </div>
         </div>
-    </div>
-    <br>
-    <!-- 下拉选框 -->
-    <div class="row distpicker-area">
-        <div class="distpicker">
-            <div class="col-xs-5 col-xs-offset-1">
-            <select id="province" class="form-control select-item"></select>
+        <br>
+        <!-- 下拉选框 -->
+        <div class="row distpicker-area">
+            <div class="distpicker">
+                <div class="col-xs-5 col-xs-offset-1">
+                    <select id="province" class="form-control select-item"></select>
+                </div>
+                <div class="col-xs-5">
+                    <select id="city" class="form-control select-item"></select>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-5">
-        <select id="city" class="form-control select-item"></select>
+        <!-- 景点列表 -->
+        <div class="sub-header">景点列表</div>
+        <div class="list" id="scenery-list">
+            <div class="item" id="item-0">
+                aaa
+            </div>
+            <div class="item">
+                aaa
+            </div>
+            <div class="item">
+                aaa
+            </div>
+        </div>
+        </br>
     </div>
-</div>
-</div>
-<div class="sub-header">景点列表</div>
-<div class="list">
-<div class="item">
-    aaa
-</div>
-<div class="item">
-    aaa
-</div>
-<div class="item">
-    aaa
-</div>
-</div>
-</br>
-<!-- 条目列表 -->
-<ul class="list-group" id="jdlist">
-</ul>
-</div>
-<script type="text/javascript">
-$(document).ready(function() {
-    $(".distpicker").distpicker({
-        autoSelect: false
-    });
-    // console.log($(".distpicker").distpicker());
-    $(".select-item").change(function(event) {
-        var province = $("#province").val();
-        var city = $("#city").val();
-        // console.log(province + city);
-        waitingDialog.show("查询中...");
-        setTimeout(function(argument) {
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(".distpicker").distpicker({
+            autoSelect: false
+        });
+        // console.log($(".distpicker").distpicker());
+        $(".select-item").change(function(event) {
+            var province = $("#province").val();
+            var city = $("#city").val();
+            
+            waitingDialog.show("查询中...");
+            $.getJSON("{:U('/Home/Index/searchScenery')}",{
+                "province": province,
+                "city": city
+            },function(data){
+                if (data != null){
+                    $("#scenery-list").empty();
+                    $.each(data,function(i,d){
+                        var itemStr = "<div class=\"item\" id=\"item-";
+                        itemStr += d.scenery_id;
+                        itemStr += "\">";
+                        itemStr += d.scenery_name;
+                        itemStr += "</div>";
+                        $("#scenery-list").append(itemStr);
+                    })
+                }
+            });
             waitingDialog.hide();
-        }, 2000);
-    });
-    $("#searchButton").on("click", function(e) {
-        waitingDialog.show("查询中...");
-        setTimeout(function(argument) {
-            waitingDialog.hide();
-        }, 2000);
-    });
+        });
+        $("#searchButton").on("click", function(e) {
+            waitingDialog.show("查询中...");
+            setTimeout(function(argument) {
+                waitingDialog.hide();
+            }, 2000);
+        });
 
-    $(".item").on("click", function (e) {
-        window.location.href = "{:U('/Home/Index/list')}";
+        $(".item").on("click", function(e) {
+            var id = $(this).attr("id").split("-")[1];
+            window.location.href = "{:U('/Home/Index/list')}" + "?id="+id;
+        });
     });
-});
-</script>
+    </script>
 </body>
+
 </html>
