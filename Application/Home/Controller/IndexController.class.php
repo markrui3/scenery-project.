@@ -2,7 +2,18 @@
 namespace Home\Controller;
 use Think\Controller;
 class IndexController extends Controller {
+    private $wechatController;
+
+    private function checkWechat(){
+        if(!C('TEST')){
+            $this->wechatController = new WechatController();
+
+            $this->wechatController->oauth();
+        }
+    }
+
     public function index(){
+        $this->checkWechat();
         $this->display('index');
     }
 

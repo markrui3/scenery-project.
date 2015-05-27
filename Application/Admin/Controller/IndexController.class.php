@@ -26,7 +26,7 @@ class IndexController extends Controller {
     }
 
     public function sublist(){
-        $this->display('sublist');
+        $this->display('sublistx');
     }
 
     public function subEdit(){
