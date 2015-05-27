@@ -1,0 +1,90 @@
+<include file="Index/header"/>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">景点列表</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    景点列表
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table id="table" class="table table-trip table-hover">
+                        <thead>
+                            <tr>
+                                <th>景点名称</th>
+                                <th>省</th>
+                                <th>市</th>
+                                <th>子项</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#wrapper -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+        url: '{:U("Admin/Index/getScenery")}',
+        type: 'post',
+        dataType: 'json'
+        })
+        .done(function(data) {
+            //console.log(data);
+            $('#table').dataTable().fnClearTable(); 
+            $('#table').dataTable({
+                "bProcessing": true,
+                "bFilter": true,
+                "bLengthChange": false,
+                "bPaginate": false,
+                "aaSorting": [3, 'desc'],
+                "bDestroy": true,
+                "oLanguage" : {
+                            "sLengthMenu": "每页显示 _MENU_ 条记录",
+                            "sZeroRecords": "抱歉， 没有找到",
+                            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                            "sInfoEmpty": "没有数据",
+                            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                            "sZeroRecords": "没有检索到数据",
+                             "sSearch": "搜索：&nbsp",
+                            "oPaginate": {
+                                "sFirst": "首页",
+                                "sPrevious": "上页",
+                                "sNext": "下页",
+                                "sLast": "尾页"
+                            }
+                     },
+                "sPaginationType" : "input",
+                data: data,
+                columns: [
+                    { data: 'scenery_name' },
+                    { data: 'province' },
+                    { data: 'city' },
+                    { data: 'sub' },
+                    {data:'operation'}
+                ]
+            });
+            $('#table_filter').html('');
+        })
+        .fail(function() {
+            //console.log("error");
+            alert('链接服务器失败，请检查环境');
+        })
+    });
+</script>
+</body>
+</html>

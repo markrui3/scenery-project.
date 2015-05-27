@@ -3,14 +3,18 @@ namespace Admin\Controller;
 use Think\Controller;
 class IndexController extends Controller {
     public function index(){
+        
+        $this->display('list');
+    }
+
+    public function getScenery(){
         $Dao = M('scenery');
         $result = $Dao->select();
         foreach ($result as &$r) {
-            $r['sub_query'] = '<a href="{:U(\'/Admin/Index/sublist/scenery_id/'.$r['scenery_id'].'\')}">查看</a>';
-            $r['sub_add'] = '<a href="{:U(\'/Admin/Index/editSub/\')}">添加</a>';
-            $r['edit'] = '<a href="{:U(\'/Admin/Index/edit/\')}">编辑</a>';
+            $r['sub'] = '<a href="{:U(\'/Admin/Index/sublist/scenery_id/'.$r['scenery_id'].'\')}">查看</a><a href="{:U(\'/Admin/Index/editSub/\')}">添加</a>';
+            $r['operation'] = '<a href="{:U(\'/Admin/Index/edit/\')}">编辑</a><a href="#" onclick="del(\'$r[\'scenery_id\']\')">删除</a>';
         }
-        $this->display('index');
+        echo json_encode($result);
     }
 
     public function login(){
@@ -25,7 +29,7 @@ class IndexController extends Controller {
         $this->display('sublist');
     }
 
-    public function editSub(){
-        $this->display('editSub');
+    public function subEdit(){
+        $this->display('subEdit');
     }
 }
