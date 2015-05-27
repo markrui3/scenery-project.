@@ -7,7 +7,13 @@ class IndexController extends Controller {
     }
 
     public function detail(){
+        $sub_scenery_id = I('get.sub_scenery_id');
+        $Sub_scenery = M('sub_scenery');
+        $sub_scenery_data= $Sub_scenery->where("sub_scenery_id=\"$sub_scenery_id\"")->select();
+        $sub_scenery_detail = $sub_scenery_data[0];
+        $this->assign('sub_scenery_detail',$sub_scenery_detail);
     	$this->display('detail');
+        // echo $sub_scenery_detail[0]['sub_scenery_id'];
     }
 
     public function loclist(){

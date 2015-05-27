@@ -8,7 +8,7 @@
 <div class="sub-header">景点列表</div>
 <div class="list">
     <foreach name="sub_scenery_data" item="data_item" >
-        <div class="item">
+        <div class="item" id="item-{$data_item.sub_scenery_id}">
             {$data_item.sub_scenery_name}
         </div>
     </foreach>
@@ -18,7 +18,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $(".item").on("click", function(e) {
-        window.location.href = "{:U('/Home/Index/detail')}";
+        var id = $(this).attr("id").split("-")[1];
+        window.location.href = "{:U('/Home/Index/detail')}" + "?sub_scenery_id=" + id;
     });
 
     $("#back-btn").on("click", function () {

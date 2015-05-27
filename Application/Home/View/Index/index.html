@@ -94,12 +94,6 @@
             // 隐藏等待框
             waitingDialog.hide();
         });
-
-        $(".item").on("click", function(e) {
-            console.log("clicked");
-            var id = $(this).attr("id").split("-")[1];
-            window.location.href = "{:U('/Home/Index/loclist')}" + "?scenery_id=" + id;
-        });
     });
     </script>
 </body>

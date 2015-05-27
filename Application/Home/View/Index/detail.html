@@ -2,10 +2,11 @@
 
 <body>
     <header class="header">
-        <div id="back-btn" class="glyphicon glyphicon-chevron-left header-left-btn"></div>天津大学东门
+        <div id="back-btn" class="glyphicon glyphicon-chevron-left header-left-btn"></div>
+        {$sub_scenery_detail.sub_scenery_name}
     </header>
     <div class="container">
-        <img src="http://fakeimg.pl/800x400/" class="img-header">
+        <img src="{$sub_scenery_detail.img_url}" class="img-header">
         <div class="btn-group sub-btn-group">
             <button class="btn btn-primary"><span class="glyphicon glyphicon-play-circle"></span> 微信播放</button>
             <button class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> 下载音频</button>
@@ -13,7 +14,7 @@
         <div class="divider"></div>
         <div class="sub-header">景点介绍</div>
         <div class="article">
-            我是景点介绍我是景点介绍我是景点介绍我是景点介绍我是景点介绍我是景点介绍
+            {$sub_scenery_detail.articleText}
         </div>
     </div>
 </body>
