@@ -1,0 +1,129 @@
+<include file="Index/header"/>
+<link href="__PUBLIC__/plugins/uploadify/uploadify.css" rel="stylesheet">
+<script src="__PUBLIC__/plugins/uploadify/jquery.uploadify.js"></script>
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">天津大学东门</h1>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					子项编辑
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<!-- /.panel-body -->
+					<form>
+						<div class="form-group">
+							<label>子项名称</label>
+							<input type="text" class="form-control" placeholder="子项名称">
+						</div>
+						<div>
+							<label>上传图片</label>
+							<input type="file" id="uploadimage" class="form-control" />(建议分辨率：350*100)
+						</div>
+						<div>
+							<label>上传音频</label>
+							<input type="file" id="uploadaudio" class="form-control" />
+						</div>
+						
+						<div style="height: 20px"></div>
+
+						<button type="button" class="btn btn-primary btn-block">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!-- /#wrapper -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".distpicker").distpicker({
+			autoSelect: false
+		});
+		// console.log($(".distpicker").distpicker());
+		$(".select-item").change(function(event) {
+			var province = $("#province").val();
+			var city = $("#city").val();
+		});
+
+		setTimeout(function(){
+			$('#uploadimage').uploadify({
+			    'swf'			:'__PUBLIC__/plugins/uploadify/uploadify.swf',
+			    'method'   		: 'post',
+			    'buttonText'	: '选择图片',
+			    'auto' 			: true,  // 文件添加到队列后自动上传
+			    'uploader'		: "{:U('Admin/Ticket/upload/')}",
+			    'fileTypeDesc'	:'Image File',
+			    'fileTypeExts'	:'*.jpg; *.jpeg; *.gif; *.png',
+			    'auto' 			: true,
+			    'removeCompleted': true,
+			    'multi'			: false,
+			    'onError' : function (event, ID, fileObj, errorObj) {
+			     alert(event + ID + fileObj + errorObj);
+				   if (errorObj.type === "File Size"){
+				    alert('超过文件上传大小限制（2M）！');
+				    return;
+				   }
+				   alert(errorObj.type + ', Error: ' + errorObj.info);
+				 },
+			    'onUploadStart': function (file) {  
+		            $("#upload").uploadify("settings", "formData", { 'ticketid': ticketid });  
+		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
+		        },
+			    onUploadSuccess	: function(file, data, response) {
+			    	$('#warn_image').html("");
+			    	//console.log(data);
+			    	var data = eval('(' + data + ')');
+			        $('#image').html('<p><img width="350px" src="'+'__PUBLIC__/assets/images/ticket/' + data + '?id=' + Math.random() + '" /></p>');
+			        picurl = '__PUBLIC__/assets/images/ticket/' + data;
+			        ticketid = data.substring(0, data.indexOf('.'));
+				}
+			});
+		}, 10);
+
+		setTimeout(function(){
+			$('#uploadaudio').uploadify({
+			    'swf'			:'__PUBLIC__/plugins/uploadify/uploadify.swf',
+			    'method'   		: 'post',
+			    'buttonText'	: '选择音频',
+			    'auto' 			: true,  // 文件添加到队列后自动上传
+			    'uploader'		: "{:U('Admin/Ticket/upload/')}",
+			    'fileTypeDesc'	:'Image File',
+			    'fileTypeExts'	:'*.mp3; *.wma; *.wav; *.ape; *.flac; *.aac;',
+			    'auto' 			: true,
+			    'removeCompleted': true,
+			    'multi'			: false,
+			    'onError' : function (event, ID, fileObj, errorObj) {
+			     alert(event + ID + fileObj + errorObj);
+				   if (errorObj.type === "File Size"){
+				    alert('超过文件上传大小限制（2M）！');
+				    return;
+				   }
+				   alert(errorObj.type + ', Error: ' + errorObj.info);
+				 },
+			    'onUploadStart': function (file) {  
+		            $("#upload").uploadify("settings", "formData", { 'ticketid': ticketid });  
+		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
+		        },
+			    onUploadSuccess	: function(file, data, response) {
+			    	$('#warn_image').html("");
+			    	//console.log(data);
+			    	var data = eval('(' + data + ')');
+			        $('#image').html('<p><img width="350px" src="'+'__PUBLIC__/assets/images/ticket/' + data + '?id=' + Math.random() + '" /></p>');
+			        picurl = '__PUBLIC__/assets/images/ticket/' + data;
+			        ticketid = data.substring(0, data.indexOf('.'));
+				}
+			});
+		}, 10);
+	});
+</script>
+</body>
+</html>
