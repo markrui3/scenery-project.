@@ -6,8 +6,9 @@ class IndexController extends Controller {
         $Dao = M('scenery');
         $result = $Dao->select();
         foreach ($result as &$r) {
-            $r['sub_query'] = '<a href="{:U(\'/Admin/Index/sublist/sub_scenery_id/'.$r['scenery_id'].'\')}">查看</a>';
+            $r['sub_query'] = '<a href="{:U(\'/Admin/Index/sublist/scenery_id/'.$r['scenery_id'].'\')}">查看</a>';
             $r['sub_add'] = '<a href="{:U(\'/Admin/Index/editSub/\')}">添加</a>';
+            $r['edit'] = '<a href="{:U(\'/Admin/Index/edit/\')}">编辑</a>';
         }
         $this->display('index');
     }
