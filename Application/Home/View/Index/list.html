@@ -7,15 +7,11 @@
 <br>
 <div class="sub-header">景点列表</div>
 <div class="list">
-    <div class="item">
-        aaa
-    </div>
-    <div class="item">
-        aaa
-    </div>
-    <div class="item">
-        aaa
-    </div>
+    <foreach name="sub_scenery_data" item="data_item" >
+        <div class="item">
+            {$data_item.sub_scenery_name}
+        </div>
+    </foreach>
 </div>
 </br>
 </div>
