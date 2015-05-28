@@ -40,6 +40,7 @@ ul.dropdown-menu li {
 .distpicker-area{
 	border-bottom: 1px solid #eee;
 	padding-bottom: 0.5em;
+	width: 100%;
 }
 
 .sub-header{
