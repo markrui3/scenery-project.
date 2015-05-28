@@ -15,6 +15,7 @@ return array(
     'DEFAULT_CHARSET' => 'utf-8', // 默认输出编码
     'URL_MODEL'          => '2', //URL模式
     'SESSION_AUTO_START' => true,
+    'DATA_CACHE_KEY'=>'think'
    /* 'TMPL_TEMPLATE_SUFFIX '=>'.tpl'*/
     //调试
 /*    'TMPL_L_DELIM'=>'<{',

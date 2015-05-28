@@ -7,17 +7,31 @@ class IndexController extends Controller {
     private function checkWechat(){
         if(!C('TEST')){
             $this->wechatController = new WechatController();
-
             $this->wechatController->oauth();
+
+            $openid = session('openid');
+            if($openid){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
         }
     }
 
     public function index(){
-        $this->checkWechat();
+        if(!$this->checkWechat()){
+            die("请在微信中打开");
+        }
         $this->display('index');
     }
 
     public function detail(){
+        if(!$this->checkWechat()){
+            die("请在微信中打开");
+        }
+
         $sub_scenery_id = I('get.sub_scenery_id');
         $Sub_scenery = M('sub_scenery');
         $sub_scenery_data= $Sub_scenery->where("sub_scenery_id=\"$sub_scenery_id\"")->select();
@@ -28,10 +42,20 @@ class IndexController extends Controller {
     }
 
     public function loclist(){
+        if(!$this->checkWechat()){
+            die("请在微信中打开");
+        }
+
         $scenery_id = I('get.scenery_id');
+
+        $Dao = M('Scenery');
+        $scenery = $Dao->where('scenery_id='.$scenery_id)->find();
+
+        
         $Sub_scenery = M('sub_scenery');
         $sub_scenery_data = $Sub_scenery->where("scenery_id=\"$scenery_id\"")->select();
         $this->assign('sub_scenery_data',$sub_scenery_data);
+        $this->assign('scenery', $scenery);
     	$this->display('list');
     }
 
@@ -54,5 +78,9 @@ class IndexController extends Controller {
             echo json_encode($Scenery->query($sql));
         }
         
+    }
+
+    public function logout(){
+        session(null);
     }
 }

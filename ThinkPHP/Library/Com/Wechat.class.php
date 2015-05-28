@@ -1168,16 +1168,20 @@ class Wechat
 			$appid = $this->appid;
 			$appsecret = $this->appsecret;
 		}
+
+
 		if ($token) { //手动指定token，优先使用
 		    $this->access_token=$token;
 		    return $this->access_token;
 		}
+
 
 		$authname = 'wechat_access_token'.$appid;
 		if ($rs = $this->getCache($authname))  {
 			$this->access_token = $rs;
 			return $rs;
 		}
+
 
 		$result = $this->http_get(self::API_URL_PREFIX.self::AUTH_URL.'appid='.$appid.'&secret='.$appsecret);
 		if ($result)
@@ -2267,6 +2271,7 @@ class Wechat
 			if (!$json || !empty($json['errcode'])) {
 				$this->errCode = $json['errcode'];
 				$this->errMsg = $json['errmsg'];
+				var_dump($result);
 				return false;
 			}
 			return $json;

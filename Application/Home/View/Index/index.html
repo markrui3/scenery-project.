@@ -38,6 +38,7 @@
         });
         // console.log($(".distpicker").distpicker());
         $(".select-item").change(function(event) {
+            $('#searchButton').focus();
             var province = $("#province").val();
             var city = $("#city").val();
             // 显示等待框
@@ -95,6 +96,8 @@
             waitingDialog.hide();
         });
     });
+
+
     </script>
 </body>
 

@@ -8,8 +8,8 @@
     <div class="container">
         <img src="{$sub_scenery_detail.img_url}" class="img-header">
         <div class="btn-group sub-btn-group">
-            <button class="btn btn-primary"><span class="glyphicon glyphicon-play-circle"></span> 微信播放</button>
-            <button class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span> 下载音频</button>
+            <button class="btn btn-primary" id="wxplayBtn"><span class="glyphicon glyphicon-play-circle"></span> 微信播放</button>
+            <button class="btn btn-primary" id="downloadBtn"><span class="glyphicon glyphicon-download-alt"></span> 下载音频</button>
         </div>
         <div class="divider"></div>
         <div class="sub-header">景点介绍</div>
@@ -23,6 +23,26 @@
 
         $("#back-btn").on("click", function() {
             window.history.back();
+        });
+
+        $("#wxplayBtn").on('click', function () {
+            alert('请在微信中回复数字{$sub_scenery_detail.sub_scenery_id}');
+            // $.ajax({
+            //     url: baseUrl + '/Home/Wechat/sendVideo?id={$sub_scenery_detail.sub_scenery_id}',
+            //     type: 'GET',
+            //     dataType: 'JSON'
+            // })
+            // .done(function(data) {
+            //     console.log("success");
+
+            //     alert(data.msg);
+            // })
+            // .fail(function() {
+            //     console.log("error");
+            // })
+            // .always(function() {
+            //     console.log("complete");
+            // });
         });
     });
 </script>
