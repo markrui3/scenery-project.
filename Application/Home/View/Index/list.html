@@ -18,11 +18,19 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $(".item").on("click", function(e) {
+        waitingDialog.show("载入页面中...");
+
         var id = $(this).attr("id").split("-")[1];
         window.location.href = "{:U('/Home/Index/detail')}" + "?sub_scenery_id=" + id;
     });
+    $(".item").on("mousedown", function(e) {
+        $(this).addClass('over');
+    });
+    $(".item").on("mouseup", function(e) {
+        $(this).removeClass('over');
+    });
 
-    $("#back-btn").on("click", function () {
+    $("#back-btn").on("click", function() {
         window.history.back();
     });
 });
