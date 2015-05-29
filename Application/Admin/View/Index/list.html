@@ -39,9 +39,9 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $.ajax({
-        url: '{:U("Admin/Index/getScenery")}',
-        type: 'post',
-        dataType: 'json'
+            url: '{:U("Admin/Index/getScenery")}',
+            type: 'post',
+            dataType: 'json'
         })
         .done(function(data) {
             //console.log(data);
@@ -78,7 +78,6 @@
                     {data:'operation'}
                 ]
             });
-            $('#table_filter').html('');
         })
         .fail(function() {
             //console.log("error");

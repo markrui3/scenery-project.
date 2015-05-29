@@ -12,7 +12,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">天津大学景点详情</h1>
+            <h1 class="page-header">{$scenery.scenery_name}景点详情</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -34,14 +34,6 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>天津大学东门</td>
-                                <td class="small-img"><img src="http://fakeimg.pl/800x400/" class="my-img"></td>
-                                <td><a href="{:U('/Admin/Index/download')}">下载</a></td>
-                                <td><a href="{:U('/Admin/Index/editSub')}">编辑</a> <a>删除</a></td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
                 <!-- /.panel-body -->
@@ -51,32 +43,54 @@
 </div>
 <!-- /#wrapper -->
 <script type="text/javascript">
-$('#table').DataTable({
-    language: {
-        "sProcessing": "处理中...",
-        "sLengthMenu": "显示 _MENU_ 项结果",
-        "sZeroRecords": "没有匹配结果",
-        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-        "sInfoPostFix": "",
-        "sSearch": "搜索:",
-        "sUrl": "",
-        "sEmptyTable": "表中数据为空",
-        "sLoadingRecords": "载入中...",
-        "sInfoThousands": ",",
-        "oPaginate": {
-            "sFirst": "首页",
-            "sPrevious": "上页",
-            "sNext": "下页",
-            "sLast": "末页"
-        },
-        "oAria": {
-            "sSortAscending": ": 以升序排列此列",
-            "sSortDescending": ": 以降序排列此列"
-        }
-    }
-});
+    $(document).ready(function() {
+        var scenery_id = '{$scenery.scenery_id}';
+        $.ajax({
+            url: '{:U("Admin/Index/getSubscenery")}',
+            type: 'post',
+            dataType: 'json',
+            data:{scenery_id:scenery_id}
+        })
+        .done(function(data) {
+            //console.log(data);
+            $('#table').dataTable().fnClearTable(); 
+            $('#table').dataTable({
+                "bProcessing": true,
+                "bFilter": true,
+                "bLengthChange": false,
+                "bPaginate": false,
+                "aaSorting": [3, 'desc'],
+                "bDestroy": true,
+                "oLanguage" : {
+                            "sLengthMenu": "每页显示 _MENU_ 条记录",
+                            "sZeroRecords": "抱歉， 没有找到",
+                            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                            "sInfoEmpty": "没有数据",
+                            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                            "sZeroRecords": "没有检索到数据",
+                             "sSearch": "搜索：&nbsp",
+                            "oPaginate": {
+                                "sFirst": "首页",
+                                "sPrevious": "上页",
+                                "sNext": "下页",
+                                "sLast": "尾页"
+                            }
+                     },
+                "sPaginationType" : "input",
+                data: data,
+                columns: [
+                    { data: 'sub_scenery_name' },
+                    { data: 'img' },
+                    { data: 'download' },
+                    {data:'operation'}
+                ]
+            });
+        })
+        .fail(function() {
+            //console.log("error");
+            alert('链接服务器失败，请检查环境');
+        })
+    });
 </script>
 </body>
 </html>
