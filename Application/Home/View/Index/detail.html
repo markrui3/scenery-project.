@@ -14,7 +14,7 @@
         <div class="divider"></div>
         <div class="sub-header">景点介绍</div>
         <div class="article">
-            {$sub_scenery_detail.articleText}
+            {$sub_scenery_detail.article}
         </div>
     </div>
 </body>
@@ -43,6 +43,10 @@
             // .always(function() {
             //     console.log("complete");
             // });
+        });
+
+        $('#downloadBtn').on('click', function () {
+            window.location.href = '{$sub_scenery_detail.audio_url}';
         });
     });
 </script>

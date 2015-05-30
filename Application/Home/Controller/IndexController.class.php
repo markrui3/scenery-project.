@@ -59,27 +59,27 @@ class IndexController extends Controller {
     	$this->display('list');
     }
 
-    public function download(){
-        $key = I('param.key');
-        if(!$key || count($key) != 128){
-            die('关键字错误');
-        }
+    // public function download(){
+    //     $key = I('param.key');
+    //     if(!$key || count($key) != 128){
+    //         die('关键字错误');
+    //     }
 
-        $realkey;
-        for($i = 0; $i < 128; $i = $i + 2){
-            $realkey .= $key[$i];
-        }
+    //     $realkey;
+    //     for($i = 0; $i < 128; $i = $i + 2){
+    //         $realkey .= $key[$i];
+    //     }
 
-        $r = $Dao->where('md5="$realkey"')->find();
-        if(!$r){
-            die('关键字错误');
-        }
+    //     $r = $Dao->where('md5="$realkey"')->find();
+    //     if(!$r){
+    //         die('关键字错误');
+    //     }
 
-        // if(!file_exists($r['http://mcontent.10086.cn/upload/sst/20130115/600547019983600902000006889063/000019_qUi16C6HnEFe6IW0.mp3']))   {   //检查文件是否存在  
-        //     echo   "文件找不到";  
-        //     exit;    
-        // }
-    }
+    //     // if(!file_exists($r['http://mcontent.10086.cn/upload/sst/20130115/600547019983600902000006889063/000019_qUi16C6HnEFe6IW0.mp3']))   {   //检查文件是否存在  
+    //     //     echo   "文件找不到";  
+    //     //     exit;    
+    //     // }
+    // }
 
     public function searchSceneryByPlace(){
     	$province = I('get.province');
