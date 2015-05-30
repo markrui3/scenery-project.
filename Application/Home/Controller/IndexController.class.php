@@ -80,9 +80,28 @@ class IndexController extends Controller {
         //     exit;    
         // }
         //redirect($r['audio_url']);
-        $r['sub_scenery_name'] = $r['sub_scenery_name'] . substr($r['audio_url'], stripos($r['audio_url'], '.'));
-        $this->assign('scenery', $r);
-        $this->display('file');
+        // $r['sub_scenery_name'] = $r['sub_scenery_name'] . substr($r['audio_url'], stripos($r['audio_url'], '.'));
+        // $this->assign('scenery', $r);
+        // $this->display('file');
+
+        // We'll be outputting a file
+        header('Accept-Ranges: bytes');
+        header('Accept-Length: ' . filesize($r['audio_url']));
+        header('Content-Transfer-Encoding: binary');
+        header('Content-type: application/octet-stream');
+
+        $filename = $r['sub_scenery_name'] . substr($r['audio_url'], stripos($r['audio_url'], '.'));
+
+        header('Content-Disposition: attachment; filename=' . $filename);
+        header('Content-Type: application/octet-stream; name=' . $filename);
+        
+        var_dump(is_readable($r['audio_url']));
+        if(is_file($r['audio_url']) && is_readable($r['audio_url'])){
+            $file = fopen($r['audio_url'], "r");
+            echo fread($file, filesize($r['audio_url']));
+            fclose($file);
+       }
+       exit;
     }
 
     public function searchSceneryByPlace(){
