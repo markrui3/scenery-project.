@@ -31,7 +31,7 @@ class IndexController extends Controller {
         $result = $Dao->where($param)->select();
         foreach ($result as &$r) {
             $r['img'] = '<img style="width:200px" src='.$r['img_url'].' />';
-            $r['download'] = '<a href='.$r['audio_url'].'>下载</a>';
+            $r['download'] = '<a href='.U('/Admin/Index/download/key/'.$r['md5']).'>下载</a>';
             $r['operation'] = '<a href='.U('/Admin/Index/subedit/sub_scenery_id/'.$r['sub_scenery_id']).'>编辑</a>&nbsp;&nbsp;<a href="#" onclick="del(\''.$r['sub_scenery_id'].'\')">删除</a>';
         }
         echo json_encode($result);
@@ -77,7 +77,7 @@ class IndexController extends Controller {
         $sub_scenery_id = I('param.sub_scenery_id');
         $param['sub_scenery_name'] = I('param.sub_scenery_name');
         $param['img_url'] = I('param.img_url');
-        $param['audio_url'] = I('param.audio_url');
+        $param['audio_url'] = DOC_ROOT."\Public\Uploads\\".I('param.audio_url');
         $param['article'] = I('param.article');
         $param['md5'] = MD5($param['audio_url']);
         
@@ -119,6 +119,35 @@ class IndexController extends Controller {
 
         $this->assign('scenery', $r);
         $this->display('subEdit');
+    }
+
+    function download(){
+        $key = I('param.key');
+
+        $Dao = M('Sub_scenery');
+        $data['md5'] = $key;
+        $r = $Dao->where($data)->find();
+        // var_dump($Dao);
+        if(!$r){
+            die('wrong key');
+        }
+        header('Accept-Ranges: bytes');
+        header('Accept-Length: ' . filesize($r['audio_url']));
+        header('Content-Transfer-Encoding: binary');
+        header('Content-type: application/octet-stream');
+
+        $filename = $r['sub_scenery_name'] . substr($r['audio_url'], stripos($r['audio_url'], '.'));
+
+        header('Content-Disposition: attachment; filename=' . $filename);
+        header('Content-Type: application/octet-stream; name=' . $filename);
+        
+        var_dump(is_readable($r['audio_url']));
+        if(is_file($r['audio_url']) && is_readable($r['audio_url'])){
+            $file = fopen($r['audio_url'], "r");
+            echo fread($file, filesize($r['audio_url']));
+            fclose($file);
+       }
+       exit;
     }
 
     //文件上传
