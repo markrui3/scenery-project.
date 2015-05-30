@@ -3,8 +3,15 @@ namespace Admin\Controller;
 use Think\Controller;
 use Think\Model;
 class IndexController extends Controller {
+    public function _initialize(){
+        $admin = session('admin');
+        if(!$admin){
+           $this->display('login');
+           exit;
+        }
+    }
+
     public function index(){
-        
         $this->display('list');
     }
 
@@ -159,5 +166,11 @@ class IndexController extends Controller {
         }else{// 上传成功
             echo json_encode($info['Filedata']['savename']);
         }
+    }
+
+
+    public function logout(){
+        session(null);
+        redirect(U('/Admin/Index/login'));
     }
 }
