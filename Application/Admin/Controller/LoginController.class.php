@@ -34,4 +34,28 @@ class LoginController extends Controller {
         echo json_encode($result);
     }
 
+    public function changePassword(){
+        $data['password'] = I('param.new_password1');
+        $admin = session('admin');
+        $Dao = M('admin');
+        $admin['password'] = $data['password'];
+        $Dao->save($admin);
+        session('admin',$admin);
+        $result['msg'] = '修改成功';
+
+        echo json_encode($result);
+    }
+
+    public function checkOldPassword(){
+        $old_password = I('param.old_password');
+        $admin = session('admin');
+        if ($admin['password'] == $old_password){
+            $result['msg'] = 'correct';
+            echo json_encode($result);
+        } else {
+            $result['msg'] = 'wrong';
+            echo json_encode($result);
+        }
+    }
+
 }
