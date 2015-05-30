@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
+use Think\Model;
 class IndexController extends Controller {
     public function index(){
         
@@ -11,7 +12,7 @@ class IndexController extends Controller {
         $Dao = M('scenery');
         $result = $Dao->select();
         foreach ($result as &$r) {
-            $r['sub'] = '<a href='.U('/Admin/Index/sublist/scenery_id/'.$r['scenery_id']).'>查看</a>&nbsp;&nbsp;<a href='.U('/Admin/Index/subEdit/scenery_id/'.$r['scenery_id']).'>添加</a>';
+            $r['sub'] = '<a href='.U('/Admin/Index/sublist/scenery_id/'.$r['scenery_id']).'>查看</a>&nbsp;&nbsp;<a href='.U('/Admin/Index/subedit/scenery_id/'.$r['scenery_id']).'>添加</a>';
             $r['operation'] = '<a href='.U('/Admin/Index/edit/scenery_id/'.$r['scenery_id']).'>编辑</a>&nbsp;&nbsp;<a href="#" onclick="del(\''.$r['scenery_id'].'\')">删除</a>';
         }
         echo json_encode($result);
@@ -34,6 +35,11 @@ class IndexController extends Controller {
     }
 
     public function edit(){
+        $param['scenery_id'] = I('param.scenery_id');
+        $Dao = M('scenery');
+        $r = $Dao->where($param)->find();
+
+        $this->assign('scenery', $r);
         $this->display('edit');
     }
 
@@ -46,10 +52,61 @@ class IndexController extends Controller {
         $this->display('sublist');
     }
 
-    public function subEdit(){
+    public function update(){
+        $scenery_id = I('param.scenery_id');
+        $param['scenery_name'] = I('param.scenery_name');
+        $param['province'] = I('param.province');
+        $param['city'] = I('param.city');
+        $Dao = M('scenery');
+        if($scenery_id == ''){
+            $r = $Dao->add($param);
+        }else{
+            $r = $Dao->where('scenery_id=%s', $scenery_id)->save($param);
+        }
+        echo json_encode($r);
+    }
+
+    public function subupdate(){
+        $sub_scenery_id = I('param.sub_scenery_id');
+        $param['sub_scenery_name'] = I('param.sub_scenery_name');
+        $param['img_url'] = I('param.img_url');
+        $param['audio_url'] = I('param.audio_url');
+        $param['article'] = I('param.article');
+        $Dao = M('sub_scenery');
+        if($sub_scenery_id == ''){
+            $param['scenery_id'] = I('param.scenery_id');
+            $r = $Dao->add($param);
+        }else{
+            $r = $Dao->where('sub_scenery_id=%s', $sub_scenery_id)->save($param);
+        }
+        echo json_encode($r);
+    }
+
+    public function del(){
         $param['scenery_id'] = I('param.scenery_id');
         $Dao = M('scenery');
-        $r = $Dao->where($param)->find();
+        $r = $Dao->where($param)->delete();
+        $Dao = M('sub_scenery');
+        $r = $Dao->where($param)->delete();
+        echo json_encode($r);
+    }
+
+    public function subdel(){
+        $param['sub_scenery_id'] = I('param.sub_scenery_id');
+        $Dao = M('sub_scenery');
+        $r = $Dao->where($param)->delete();
+        echo json_encode($r);
+    }
+
+    public function subedit(){
+        $Dao = new Model();
+        $param['sc.sub_scenery_id'] = I('param.sub_scenery_id');
+        if($param['sc.sub_scenery_id'] != ''){
+            $r = $Dao->table('scenery s, sub_scenery sc')->where($param)->where('sc.scenery_id=s.scenery_id')->find();
+        }else{
+            $data['scenery_id'] = I('param.scenery_id');
+            $r = $Dao->table('scenery')->where($data)->find();
+        }
 
         $this->assign('scenery', $r);
         $this->display('subEdit');
@@ -85,17 +142,12 @@ class IndexController extends Controller {
     public function uploadAudio(){
         $upload = new \Think\Upload();// 实例化上传类
         //$upload->maxSize   =     3145728 ;// 设置附件上传大小
-        $upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+        $upload->exts      =     array('mp3', 'wma', 'wav', 'ape', 'flac', 'aac');// 设置附件上传类型
         $upload->rootPath  =     'Public/upload/audio/'; // 设置附件上传根目录
         $upload->savePath  =     I('post.savePath'); // 设置附件上传（子）目录
         $upload->replace   =     true; 
 
-        $goodsid = I('post.goodsid');
-        if($goodsid != null){
-            $upload->saveName = $goodsid;
-        }else{
-            $upload->saveName = ''.time();
-        }
+        $upload->saveName = I('post.saveName');
         
         $upload->autoSub  =      false; 
         // 上传文件 

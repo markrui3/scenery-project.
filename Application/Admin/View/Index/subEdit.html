@@ -18,26 +18,31 @@
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<!-- /.panel-body -->
-					<form id="form">
 						<div class="form-group">
 							<label>子项名称</label>
-							<input type="text" class="form-control" placeholder="子项名称">
+							<input id="sub_scenery_name" type="text" class="form-control" placeholder="子项名称" value="{$scenery.sub_scenery_name}" />
 						</div>
+						<div style="height: 30px"></div>
 						<div>
 							<label>上传图片</label>
 							<div id="image"></div>
 							<input type="file" id="uploadimage" class="form-control" />(建议分辨率：350*100)
 						</div>
+						<div style="height: 30px"></div>
 						<div>
 							<label>上传音频</label>
 							<div id="audio"></div>
 							<input type="file" id="uploadaudio" class="form-control" />(建议格式：mp3)
 						</div>
+						<div style="height: 30px"></div>
+						<div>
+							<label>子项描述</label>
+							<textarea id="article" style="height:100px" class="form-control" >{$scenery.article}</textarea>
+						</div>
 						
-						<div style="height: 20px"></div>
+						<div style="height: 30px"></div>
 
-						<button type="button" class="btn btn-primary btn-block">提交</button>
-					</form>
+						<button type="button" class="btn btn-primary btn-block" onclick="submit()">提交</button>
 				</div>
 			</div>
 		</div>
@@ -46,9 +51,17 @@
 </div>
 <!-- /#wrapper -->
 <script type="text/javascript">
+	var img_url = '{$scenery.img_url}';
+	var audio_url = '{$scenery.audio_url}';
 	$(document).ready(function() {
-		var img_url;
-		var audio_url;
+
+		if(img_url != ''){
+			$('#image').html('<p><img width="200px" src="'+ img_url + '?id=' + Math.random() + '" /></p>');
+		}
+
+		if(audio_url != ''){
+			$('#audio').html('<p><a class="btn btn-primary" href="' + audio_url + '?id=' + Math.random() + '" >音频文件下载</a></p>');
+		}
 
 		setTimeout(function(){
 			$('#uploadimage').uploadify({
@@ -71,12 +84,19 @@
 				   alert(errorObj.type + ', Error: ' + errorObj.info);
 				 },
 			    'onUploadStart': function (file) {  
-		            $("#uploadimage").uploadify("settings", "formData", { 'saveName': new Date().getTime() });  
+			    			var saveName;
+			    			if(img_url == ''){
+									saveName = new Date().getTime();
+			    			}else{
+			    				saveName = img_url.replace('__PUBLIC__/upload/image/', '');
+			    				saveName = saveName.substring(0, saveName.indexOf('.'));
+			    			}
+		            $("#uploadimage").uploadify("settings", "formData", { 'saveName': saveName});  
 		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
 		        },
 			    onUploadSuccess	: function(file, data, response) {
 			    	var data = eval('(' + data + ')');
-			        $('#image').html('<p><img width="350px" src="'+'__PUBLIC__/upload/images/' + data + '?id=' + Math.random() + '" /></p>');
+			        $('#image').html('<p><img width="350px" src="'+'__PUBLIC__/upload/image/' + data + '?id=' + Math.random() + '" /></p>');
 			        img_url = '__PUBLIC__/upload/image/' + data;
 				}
 			});
@@ -89,7 +109,7 @@
 			    'buttonText'	: '选择音频',
 			    'auto' 			: true,  // 文件添加到队列后自动上传
 			    'uploader'		: "{:U('Admin/Index/uploadAudio/')}",
-			    'fileTypeDesc'	:'Image File',
+			    'fileTypeDesc'	:'请选择音频文件！',
 			    'fileTypeExts'	:'*.mp3; *.wma; *.wav; *.ape; *.flac; *.aac;',
 			    'auto' 			: true,
 			    'removeCompleted': true,
@@ -103,17 +123,45 @@
 				   alert(errorObj.type + ', Error: ' + errorObj.info);
 				 },
 			    'onUploadStart': function (file) {  
-		            $("#uploadaudio").uploadify("settings", "formData", { 'saveName': new Date().getTime() });  
+			    			var saveName;
+			    			if(audio_url == ''){
+									saveName = new Date().getTime();
+			    			}else{
+			    				saveName = audio_url.replace('__PUBLIC__/upload/audio/', '');
+			    				saveName = saveName.substring(0, saveName.indexOf('.'));
+			    			}
+		            $("#uploadaudio").uploadify("settings", "formData", { 'saveName': saveName});  
 		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
 		        },
 			    onUploadSuccess	: function(file, data, response) {
 			    	var data = eval('(' + data + ')');
-			        $('#audio').html('<p><img width="350px" src="'+'__PUBLIC__/assets/images/ticket/' + data + '?id=' + Math.random() + '" /></p>');
+			        $('#audio').html('<p><a class="btn btn-primary" href="'+'__PUBLIC__/upload/audio/' + data + '?id=' + Math.random() + '" >音频文件下载</a></p>');
 			        audio_url = '__PUBLIC__/upload/audio/' + data;
 				}
 			});
 		}, 10);
+
 	});
+
+function submit(){
+	$.ajax({
+			cache: false,
+			url: '{:U("Admin/Index/subupdate/")}',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				'sub_scenery_id' : '{$scenery.sub_scenery_id}',
+				'scenery_id' : '{$scenery.scenery_id}',
+				'sub_scenery_name' : $('#sub_scenery_name').val(),
+				'img_url':  img_url,
+				'audio_url':audio_url,
+				'article':$('#article').val()
+			}
+		})
+		.done(function(data){
+				location.href="__APP__/Admin/Index/sublist/scenery_id/"+'{$scenery.scenery_id}';
+		});
+}
 </script>
 </body>
 </html>

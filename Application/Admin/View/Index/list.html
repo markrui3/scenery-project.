@@ -38,6 +38,10 @@
 <!-- /#wrapper -->
 <script type="text/javascript">
     $(document).ready(function() {
+        loadData();
+    });
+
+    function loadData(){
         $.ajax({
             url: '{:U("Admin/Index/getScenery")}',
             type: 'post',
@@ -78,12 +82,26 @@
                     {data:'operation'}
                 ]
             });
+        });
+    }
+
+    function del(scenery_id){
+        if(!confirm("确认删除？")){
+            return;
+        }
+        $.ajax({
+            cache: false,
+            url: '{:U("Admin/Index/del/")}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'scenery_id' : scenery_id
+            }
         })
-        .fail(function() {
-            //console.log("error");
-            alert('链接服务器失败，请检查环境');
-        })
-    });
+        .done(function(data){
+            loadData();
+        });
+    }
 </script>
 </body>
 </html>

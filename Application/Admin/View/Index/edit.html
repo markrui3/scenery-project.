@@ -2,7 +2,7 @@
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">添加景点</h1>
+			<h1 class="page-header">景点概述</h1>
 		</div>
 		<!-- /.col-lg-12 -->
 	</div>
@@ -11,15 +11,14 @@
 		<div class="col-lg-8">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					添加景点
+					景点编辑
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<!-- /.panel-body -->
-					<form>
 						<div class="form-group">
 							<label>景点名称</label>
-							<input type="text" class="form-control" placeholder="景点名称">
+							<input id="scenery_name" value="{$scenery.scenery_name}" type="text" class="form-control" placeholder="景点名称">
 						</div>
 						<div>
 							<label>区域</label>
@@ -42,8 +41,7 @@
 						
 						<div style="height: 20px"></div>
 
-						<button type="button" class="btn btn-primary btn-block">提交</button>
-					</form>
+						<button type="button" class="btn btn-primary btn-block" onclick="submit()">提交</button>
 				</div>
 			</div>
 		</div>
@@ -53,15 +51,37 @@
 <!-- /#wrapper -->
 <script type="text/javascript">
 	$(document).ready(function() {
-	$(".distpicker").distpicker({
-	autoSelect: false
+
+		$(".distpicker").distpicker({
+			autoSelect: false,
+			province:'{$scenery.province}',
+			city:'{$scenery.city}'
+		});
+		
+		$(".select-item").change(function(event) {
+			var province = $("#province").val();
+			var city = $("#city").val();
+		});
+
 	});
-	// console.log($(".distpicker").distpicker());
-	$(".select-item").change(function(event) {
-	var province = $("#province").val();
-	var city = $("#city").val();
-	});
-	});
+
+	function submit(){
+		$.ajax({
+			cache: false,
+			url: '{:U("Admin/Index/update/")}',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				'scenery_id' : '{$scenery.scenery_id}',
+				'scenery_name' : $('#scenery_name').val(),
+				'province':  $('#province').val(),
+				'city':$('#city').val()
+			}
+		})
+		.done(function(data){
+				location.href="__APP__/Admin/Index/index/";
+		});
+	}
 </script>
 </body>
 </html>

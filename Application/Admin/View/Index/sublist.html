@@ -44,6 +44,10 @@
 <!-- /#wrapper -->
 <script type="text/javascript">
     $(document).ready(function() {
+        loadData();
+    });
+
+    function loadData(){
         var scenery_id = '{$scenery.scenery_id}';
         $.ajax({
             url: '{:U("Admin/Index/getSubscenery")}',
@@ -90,7 +94,25 @@
             //console.log("error");
             alert('链接服务器失败，请检查环境');
         })
+    }
+
+function del(sub_scenery_id){
+    if(!confirm("确认删除？")){
+        return;
+    }
+    $.ajax({
+        cache: false,
+        url: '{:U("Admin/Index/subdel/")}',
+        type: 'post',
+        dataType: 'json',
+        data: {
+            'sub_scenery_id' : sub_scenery_id
+        }
+    })
+    .done(function(data){
+        loadData();
     });
+}
 </script>
 </body>
 </html>
