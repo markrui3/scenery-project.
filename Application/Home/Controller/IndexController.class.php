@@ -79,7 +79,10 @@ class IndexController extends Controller {
         //     echo   "文件找不到";  
         //     exit;    
         // }
-        redirect($r['audio_url']);
+        //redirect($r['audio_url']);
+        $r['sub_scenery_name'] = $r['sub_scenery_name'] . substr($r['audio_url'], stripos($r['audio_url'], '.'));
+        $this->assign('scenery', $r);
+        $this->display('file');
     }
 
     public function searchSceneryByPlace(){
