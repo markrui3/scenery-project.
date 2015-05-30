@@ -53,7 +53,7 @@
 <script type="text/javascript">
 	var img_url = '{$scenery.img_url}';
 	var audio_url = '{$scenery.audio_url}';
-	audio_url = audio_url.substr(-17, 13);
+
 	var key = '{$scenery.md5}';
 
 	$(document).ready(function() {
@@ -63,6 +63,7 @@
 		}
 
 		if(audio_url != ''){
+			audio_url = audio_url.substr(-17, 13);
 			$('#audio').html('<p><a class="btn btn-primary" href="__APP__/Admin/Index/download/key/'+key+'?id=' + Math.random() + '" >音频文件下载</a></p>');
 		}
 
@@ -130,14 +131,14 @@
 			    			if(audio_url == ''){
 									saveName = new Date().getTime();
 			    			}else{
-			    				saveName = audio_url.substr(-17, 13);
+			    				saveName = audio_url;
 			    			}
 		            $("#uploadaudio").uploadify("settings", "formData", { 'saveName': saveName});  
 		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
 		        },
 			    onUploadSuccess	: function(file, data, response) {
 			    	var data = eval('(' + data + ')');
-			        $('#audio').html('上传音频已完成');
+			        //$('#audio').html('上传音频已完成');
 			        audio_url = data;
 				}
 			});

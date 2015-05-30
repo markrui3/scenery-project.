@@ -77,7 +77,7 @@ class IndexController extends Controller {
         $sub_scenery_id = I('param.sub_scenery_id');
         $param['sub_scenery_name'] = I('param.sub_scenery_name');
         $param['img_url'] = I('param.img_url');
-        $param['audio_url'] = DOC_ROOT."\Public\Uploads\\".I('param.audio_url');
+        $param['audio_url'] = DOC_ROOT."/Public/Uploads/".I('param.audio_url');
         $param['article'] = I('param.article');
         $param['md5'] = MD5($param['audio_url']);
         
