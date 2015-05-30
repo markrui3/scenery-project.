@@ -46,7 +46,7 @@
         });
 
         $('#downloadBtn').on('click', function () {
-            window.location.href = '{$sub_scenery_detail.audio_url}';
+            window.location.href = '{:U("/Home/Index/download")}?key={$sub_scenery_detail.md5}';
         });
     });
 </script>

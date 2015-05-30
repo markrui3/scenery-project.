@@ -58,7 +58,7 @@ class WechatController extends Controller {
 					$r = $Dao->where('sub_scenery_id='.$receive)->find();
 
 					if($r){
-		    			$this->weObj->music( $r['sub_scenery_name'], '', $r['audio_url'] )->reply();
+		    			$this->weObj->music( $r['sub_scenery_name'], '', 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$r['audio_url'] )->reply();
 					} else {
 	            		$this->weObj->text("请检查您输入的编号是否正确")->reply();
 					}

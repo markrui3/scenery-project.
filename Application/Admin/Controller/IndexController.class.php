@@ -72,6 +72,8 @@ class IndexController extends Controller {
         $param['img_url'] = I('param.img_url');
         $param['audio_url'] = I('param.audio_url');
         $param['article'] = I('param.article');
+        $param['md5'] = MD5($param['audio_url']);
+        
         $Dao = M('sub_scenery');
         if($sub_scenery_id == ''){
             $param['scenery_id'] = I('param.scenery_id');
