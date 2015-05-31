@@ -51,7 +51,6 @@ class IndexController extends Controller {
         $Dao = M('Scenery');
         $scenery = $Dao->where('scenery_id='.$scenery_id)->find();
 
-        
         $Sub_scenery = M('sub_scenery');
         $sub_scenery_data = $Sub_scenery->where("scenery_id=\"$scenery_id\"")->select();
         $this->assign('sub_scenery_data',$sub_scenery_data);
@@ -75,9 +74,9 @@ class IndexController extends Controller {
             die('wrong key');
         }
 
-        // if(!file_exists($r['http://mcontent.10086.cn/upload/sst/20130115/600547019983600902000006889063/000019_qUi16C6HnEFe6IW0.mp3']))   {   //检查文件是否存在  
-        //     echo   "文件找不到";  
-        //     exit;    
+        // if(!file_exists($r['http://mcontent.10086.cn/upload/sst/20130115/600547019983600902000006889063/000019_qUi16C6HnEFe6IW0.mp3']))   {   //检查文件是否存在
+        //     echo   "文件找不到";
+        //     exit;
         // }
         //redirect($r['audio_url']);
         // $r['sub_scenery_name'] = $r['sub_scenery_name'] . substr($r['audio_url'], stripos($r['audio_url'], '.'));
@@ -86,7 +85,7 @@ class IndexController extends Controller {
 
         // We'll be outputting a file
         header('Accept-Ranges: bytes');
-        header('Accept-Length: ' . filesize($r['audio_url']));
+        header('Content-length: ' . filesize($r['audio_url']));
         header('Content-Transfer-Encoding: binary');
         header('Content-type: application/octet-stream');
 
@@ -95,7 +94,6 @@ class IndexController extends Controller {
         header('Content-Disposition: attachment; filename=' . $filename);
         header('Content-Type: application/octet-stream; name=' . $filename);
         
-        var_dump(is_readable($r['audio_url']));
         if(is_file($r['audio_url']) && is_readable($r['audio_url'])){
             $file = fopen($r['audio_url'], "r");
             echo fread($file, filesize($r['audio_url']));
