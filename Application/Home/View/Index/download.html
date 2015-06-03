@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<style>
-			#download{
+			.download{
 				height: 100%;
 				width: 100%;
 				text-align: center;
@@ -15,12 +15,38 @@
 		</style>
 		<title>下载</title>
 	</head>
-	<body id="download">
-		下载请点击右上角的...
-		<br>
-		选择<span style="color: blue">在浏览器中打开</span>,即可下载
-		<br>
-		<br>
-		点击<a href="javascript: window.history.back()">这里</a>返回
+	<body class="download" onload="load();">
+		<div id="android">
+			下载请点击右上角的...
+			<br>
+			选择<span style="color: blue">在浏览器中打开</span>,即可下载
+			<br>
+			<br>
+			点击<a href="javascript: window.history.back()">这里</a>返回
+		</div>
+
+		<div id="ios">
+			IOS用户：
+			<br>
+			第一步，请下载<a href="
+https://itunes.apple.com/cn/app/xdownload-hd-lite-super-tools/id557139783?l=en&mt=8">xDownload Lite</a>，否则只能在线听音频
+			<br>
+			第二步，下载安装完成后，点击右上角...，选择<span style="color: blue">复制链接</span>
+			<br>
+			第三步，打开xDownload Lite软件，将链接粘贴到地址栏中，进入即可下载
+			<br>
+			点击<a href="javascript: window.history.back()">这里</a>返回
+		</div>
 	</body>
+	<script type="text/javascript">
+	function load () {
+		if(navigator.userAgent.indexOf('Android') < 0){
+			document.getElementById('android').style.display="none";
+			document.getElementById('ios').style.display="";
+		} else {
+			document.getElementById('ios').style.display="none";
+			document.getElementById('android').style.display="";
+		}
+	}
+	</script>
 </html>
