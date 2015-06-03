@@ -1,5 +1,12 @@
 <include file="Index/header"/>
 <body>
+<style type="text/css">
+    img {
+        width: 2em;
+        height: 2em;
+        border-radius: 0.5em;
+    }
+</style>
 <header class="header">
     <div id="back-btn" class="glyphicon glyphicon-chevron-left header-left-btn"></div>
     {$scenery.scenery_name}
@@ -9,6 +16,7 @@
 <div class="list">
     <foreach name="sub_scenery_data" item="data_item" >
         <div class="item" id="item-{$data_item.sub_scenery_id}">
+            <img src="{$data_item.logo_url}">&nbsp;&nbsp;
             {$data_item.sub_scenery_name}
         </div>
     </foreach>
