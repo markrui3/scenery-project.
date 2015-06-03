@@ -5,19 +5,20 @@ class IndexController extends Controller {
     private $wechatController;
 
     private function checkWechat(){
-        if(!C('TEST')){
-            $this->wechatController = new WechatController();
-            $this->wechatController->oauth();
+        // if(!C('TEST')){
+        //     $this->wechatController = new WechatController();
+        //     $this->wechatController->oauth();
 
-            $openid = session('openid');
-            if($openid){
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
+        //     $openid = session('openid');
+        //     if($openid){
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // } else {
+        //     return true;
+        // }
+        return true;
     }
 
     public function index(){

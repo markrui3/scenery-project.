@@ -42,6 +42,10 @@ ul.dropdown-menu li {
 	padding-left: 2em;
 }
 
+.select-item{
+	font-size: 18px;
+}
+
 .distpicker-area{
 	border-bottom: 1px solid #eee;
 	padding-bottom: 0.5em;
@@ -54,7 +58,7 @@ ul.dropdown-menu li {
 	padding-left: 1em;
 	padding-bottom: 0.2em;
 	border-bottom: 1px solid #eee;
-	color: #3498db;
+	color: #A9A9A9;
 }
 
 .header-left-btn{
