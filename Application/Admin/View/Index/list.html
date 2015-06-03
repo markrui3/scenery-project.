@@ -8,7 +8,7 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     景点列表
@@ -53,9 +53,6 @@
             $('#table').dataTable({
                 "bProcessing": true,
                 "bFilter": true,
-                "bLengthChange": false,
-                "bPaginate": false,
-                "aaSorting": [3, 'desc'],
                 "bDestroy": true,
                 "oLanguage" : {
                             "sLengthMenu": "每页显示 _MENU_ 条记录",
@@ -72,7 +69,7 @@
                                 "sLast": "尾页"
                             }
                      },
-                "sPaginationType" : "input",
+                "sPaginationType" : "full_numbers",
                 data: data,
                 columns: [
                     { data: 'scenery_name' },
