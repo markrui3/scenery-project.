@@ -31,6 +31,7 @@ class IndexController extends Controller {
         $result = $Dao->where($param)->select();
         foreach ($result as &$r) {
             $r['img'] = '<img style="width:200px" src='.$r['img_url'].' />';
+            $r['logo'] = '<img style="width:80px" src='.$r['logo_url'].' />';
             $r['download'] = '<a href='.U('/Admin/Index/download/key/'.$r['md5']).'>下载</a>';
             $r['operation'] = '<a href='.U('/Admin/Index/subedit/sub_scenery_id/'.$r['sub_scenery_id']).'>编辑</a>&nbsp;&nbsp;<a href="#" onclick="del(\''.$r['sub_scenery_id'].'\')">删除</a>';
         }
@@ -77,6 +78,7 @@ class IndexController extends Controller {
         $sub_scenery_id = I('param.sub_scenery_id');
         $param['sub_scenery_name'] = I('param.sub_scenery_name');
         $param['img_url'] = I('param.img_url');
+        $param['logo_url'] = I('param.logo_url');
         $param['audio_url'] = DOC_ROOT."/Public/upload/audio/".I('param.audio_url');
         $param['article'] = I('param.article');
         $param['md5'] = MD5($param['audio_url']);

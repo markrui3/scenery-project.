@@ -1,170 +1,226 @@
-<include file="Index/header"/>
+<include file="Index/header" />
 <link href="__PUBLIC__/plugins/uploadify/uploadify.css" rel="stylesheet">
 <script src="__PUBLIC__/plugins/uploadify/jquery.uploadify.js"></script>
 <div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header">{$scenery.scenery_name}子项</h1>
-		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-	<!-- /.row -->
-	<div class="row">
-		<div class="col-lg-8">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					子项编辑
-				</div>
-				<!-- /.panel-heading -->
-				<div class="panel-body">
-					<!-- /.panel-body -->
-						<div class="form-group">
-							<label>子项名称</label>
-							<input id="sub_scenery_name" type="text" class="form-control" placeholder="子项名称" value="{$scenery.sub_scenery_name}" />
-						</div>
-						<div style="height: 30px"></div>
-						<div>
-							<label>上传图片</label>
-							<div id="image"></div>
-							<input type="file" id="uploadimage" class="form-control" />(建议分辨率：350*100)
-						</div>
-						<div style="height: 30px"></div>
-						<div>
-							<label>上传音频</label>
-							<div id="audio"></div>
-							<input type="file" id="uploadaudio" class="form-control" />(建议格式：mp3)
-						</div>
-						<div style="height: 30px"></div>
-						<div>
-							<label>子项描述</label>
-							<textarea id="article" style="height:100px" class="form-control" >{$scenery.article}</textarea>
-						</div>
-						
-						<div style="height: 30px"></div>
-
-						<button type="button" class="btn btn-primary btn-block" onclick="submit()">提交</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{$scenery.scenery_name}子项</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    子项编辑
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <!-- /.panel-body -->
+                    <div class="form-group">
+                        <label>子项名称</label>
+                        <input id="sub_scenery_name" type="text" class="form-control" placeholder="子项名称" value="{$scenery.sub_scenery_name}" />
+                    </div>
+                    <div style="height: 30px"></div>
+                    <div>
+                        <label>上传图片</label>
+                        <div id="image"></div>
+                        <input type="file" id="uploadimage" class="form-control" />(建议分辨率：350*100)
+                    </div>
+                    <div style="height: 30px"></div>
+                    <div>
+                        <label>上传小图标</label>
+                        <div id="logo"></div>
+                        <input type="file" id="uploadlogo" class="form-control" />(建议分辨率：80*80)
+                    </div>
+                    <div style="height: 30px"></div>
+                    <div>
+                        <label>上传音频</label>
+                        <div id="audio"></div>
+                        <input type="file" id="uploadaudio" class="form-control" />(建议格式：mp3)
+                    </div>
+                    <div style="height: 30px"></div>
+                    <div>
+                        <label>子项描述</label>
+                        <textarea id="article" style="height:100px" class="form-control">{$scenery.article}</textarea>
+                    </div>
+                    <div style="height: 30px"></div>
+                    <button type="button" class="btn btn-primary btn-block" onclick="submit()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 <!-- /#wrapper -->
 <script type="text/javascript">
 	var img_url = '{$scenery.img_url}';
+	var logo_url = '{$scenery.logo_url}';
 	var audio_url = '{$scenery.audio_url}';
 
 	var key = '{$scenery.md5}';
 
 	$(document).ready(function() {
 
-		if(img_url != ''){
-			$('#image').html('<p><img width="200px" src="'+ img_url + '?id=' + Math.random() + '" /></p>');
-		}
+	    if (img_url != '') {
+	        $('#image').html('<p><img width="200px" src="' + img_url + '?id=' + Math.random() + '" /></p>');
+	    }
 
-		if(audio_url != ''){
-			audio_url = audio_url.substr(-17, 13);
-			$('#audio').html('<p><a class="btn btn-primary" href="__APP__/Admin/Index/download/key/'+key+'?id=' + Math.random() + '" >音频文件下载</a></p>');
-		}
+	    if (logo_url != '') {
+	        $('#logo').html('<p><img width="80px" src="' + logo_url + '?id=' + Math.random() + '" /></p>');
+	    }
 
-		setTimeout(function(){
-			$('#uploadimage').uploadify({
-			    'swf'			:'__PUBLIC__/plugins/uploadify/uploadify.swf',
-			    'method'   		: 'post',
-			    'buttonText'	: '选择图片',
-			    'auto' 			: true,  // 文件添加到队列后自动上传
-			    'uploader'		: "{:U('Admin/Index/uploadImg/')}",
-			    'fileTypeDesc'	:'Image File',
-			    'fileTypeExts'	:'*.jpg; *.jpeg; *.gif; *.png',
-			    'auto' 			: true,
-			    'removeCompleted': true,
-			    'multi'			: false,
-			    'onError' : function (event, ID, fileObj, errorObj) {
-			     alert(event + ID + fileObj + errorObj);
-				   if (errorObj.type === "File Size"){
-				    alert('超过文件上传大小限制（2M）！');
-				    return;
-				   }
-				   alert(errorObj.type + ', Error: ' + errorObj.info);
-				 },
-			    'onUploadStart': function (file) {  
-			    			var saveName;
-			    			if(img_url == ''){
-									saveName = new Date().getTime();
-			    			}else{
-			    				saveName = img_url.replace('__PUBLIC__/upload/image/', '');
-			    				saveName = saveName.substring(0, saveName.indexOf('.'));
-			    			}
-		            $("#uploadimage").uploadify("settings", "formData", { 'saveName': saveName});  
-		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
-		        },
-			    onUploadSuccess	: function(file, data, response) {
-			    	var data = eval('(' + data + ')');
-			        $('#image').html('<p><img width="350px" src="'+'__PUBLIC__/upload/image/' + data + '?id=' + Math.random() + '" /></p>');
-			        img_url = '__PUBLIC__/upload/image/' + data;
-				}
-			});
-		}, 10);
+	    if (audio_url != '') {
+	        audio_url = audio_url.substr(-17, 13);
+	        $('#audio').html('<p><a class="btn btn-primary" href="__APP__/Admin/Index/download/key/' + key + '?id=' + Math.random() + '" >音频文件下载</a></p>');
+	    }
 
-		setTimeout(function(){
-			$('#uploadaudio').uploadify({
-			    'swf'			:'__PUBLIC__/plugins/uploadify/uploadify.swf',
-			    'method'   		: 'post',
-			    'buttonText'	: '选择音频',
-			    'auto' 			: true,  // 文件添加到队列后自动上传
-			    'uploader'		: "{:U('Admin/Index/uploadAudio/')}",
-			    'fileTypeDesc'	:'请选择音频文件！',
-			    'fileTypeExts'	:'*.mp3; *.wma; *.wav; *.ape; *.flac; *.aac;',
-			    'auto' 			: true,
-			    'removeCompleted': true,
-			    'multi'			: false,
-			    'onError' : function (event, ID, fileObj, errorObj) {
-			     alert(event + ID + fileObj + errorObj);
-				   if (errorObj.type === "File Size"){
-				    alert('超过文件上传大小限制（2M）！');
-				    return;
-				   }
-				   alert(errorObj.type + ', Error: ' + errorObj.info);
-				 },
-			    'onUploadStart': function (file) {  
-			    			var saveName;
-			    			if(audio_url == ''){
-									saveName = new Date().getTime();
-			    			}else{
-			    				saveName = audio_url;
-			    			}
-		            $("#uploadaudio").uploadify("settings", "formData", { 'saveName': saveName});  
-		            //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
-		        },
-			    onUploadSuccess	: function(file, data, response) {
-			    	var data = eval('(' + data + ')');
-			        //$('#audio').html('上传音频已完成');
-			        audio_url = data;
-				}
-			});
-		}, 10);
+	    setTimeout(function() {
+	        $('#uploadimage').uploadify({
+	            'swf': '__PUBLIC__/plugins/uploadify/uploadify.swf',
+	            'method': 'post',
+	            'buttonText': '选择图片',
+	            'auto': true, // 文件添加到队列后自动上传
+	            'uploader': "{:U('Admin/Index/uploadImg/')}",
+	            'fileTypeDesc': 'Image File',
+	            'fileTypeExts': '*.jpg; *.jpeg; *.gif; *.png',
+	            'auto': true,
+	            'removeCompleted': true,
+	            'multi': false,
+	            'onError': function(event, ID, fileObj, errorObj) {
+	                alert(event + ID + fileObj + errorObj);
+	                if (errorObj.type === "File Size") {
+	                    alert('超过文件上传大小限制（2M）！');
+	                    return;
+	                }
+	                alert(errorObj.type + ', Error: ' + errorObj.info);
+	            },
+	            'onUploadStart': function(file) {
+	                var saveName;
+	                if (img_url == '') {
+	                    saveName = new Date().getTime();
+	                } else {
+	                    saveName = img_url.replace('__PUBLIC__/upload/image/', '');
+	                    saveName = saveName.substring(0, saveName.indexOf('.'));
+	                }
+	                $("#uploadimage").uploadify("settings", "formData", {
+	                    'saveName': saveName
+	                });
+	                //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
+	            },
+	            onUploadSuccess: function(file, data, response) {
+	                var data = eval('(' + data + ')');
+	                $('#image').html('<p><img width="350px" src="' + '__PUBLIC__/upload/image/' + data + '?id=' + Math.random() + '" /></p>');
+	                img_url = '__PUBLIC__/upload/image/' + data;
+	            }
+	        });
+	    }, 10);
+
+	    setTimeout(function() {
+	        $('#uploadlogo').uploadify({
+	            'swf': '__PUBLIC__/plugins/uploadify/uploadify.swf',
+	            'method': 'post',
+	            'buttonText': '选择小图标',
+	            'auto': true, // 文件添加到队列后自动上传
+	            'uploader': "{:U('Admin/Index/uploadImg/')}",
+	            'fileTypeDesc': 'Image File',
+	            'fileTypeExts': '*.jpg; *.jpeg; *.gif; *.png',
+	            'auto': true,
+	            'removeCompleted': true,
+	            'multi': false,
+	            'onError': function(event, ID, fileObj, errorObj) {
+	                alert(event + ID + fileObj + errorObj);
+	                if (errorObj.type === "File Size") {
+	                    alert('超过文件上传大小限制（2M）！');
+	                    return;
+	                }
+	                alert(errorObj.type + ', Error: ' + errorObj.info);
+	            },
+	            'onUploadStart': function(file) {
+	                var saveName;
+	                if (logo_url == '') {
+	                    saveName = new Date().getTime();
+	                } else {
+	                    saveName = logo_url.replace('__PUBLIC__/upload/image/', '');
+	                    saveName = saveName.substring(0, saveName.indexOf('.'));
+	                }
+	                $("#uploadlogo").uploadify("settings", "formData", {
+	                    'saveName': saveName
+	                });
+	                //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
+	            },
+	            onUploadSuccess: function(file, data, response) {
+	                var data = eval('(' + data + ')');
+	                $('#logo').html('<p><img width="80px" src="' + '__PUBLIC__/upload/image/' + data + '?id=' + Math.random() + '" /></p>');
+	                logo_url = '__PUBLIC__/upload/image/' + data;
+	            }
+	        });
+	    }, 10);
+
+	    setTimeout(function() {
+	        $('#uploadaudio').uploadify({
+	            'swf': '__PUBLIC__/plugins/uploadify/uploadify.swf',
+	            'method': 'post',
+	            'buttonText': '选择音频',
+	            'auto': true, // 文件添加到队列后自动上传
+	            'uploader': "{:U('Admin/Index/uploadAudio/')}",
+	            'fileTypeDesc': '请选择音频文件！',
+	            'fileTypeExts': '*.mp3; *.wma; *.wav; *.ape; *.flac; *.aac;',
+	            'auto': true,
+	            'removeCompleted': true,
+	            'multi': false,
+	            'onError': function(event, ID, fileObj, errorObj) {
+	                alert(event + ID + fileObj + errorObj);
+	                if (errorObj.type === "File Size") {
+	                    alert('超过文件上传大小限制（2M）！');
+	                    return;
+	                }
+	                alert(errorObj.type + ', Error: ' + errorObj.info);
+	            },
+	            'onUploadStart': function(file) {
+	                var saveName;
+	                if (audio_url == '') {
+	                    saveName = new Date().getTime();
+	                } else {
+	                    saveName = audio_url;
+	                }
+	                $("#uploadaudio").uploadify("settings", "formData", {
+	                    'saveName': saveName
+	                });
+	                //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
+	            },
+	            onUploadSuccess: function(file, data, response) {
+	                var data = eval('(' + data + ')');
+	                //$('#audio').html('上传音频已完成');
+	                audio_url = data;
+	            }
+	        });
+	    }, 10);
 
 	});
 
-function submit(){
-	$.ajax({
-			cache: false,
-			url: '{:U("Admin/Index/subupdate/")}',
-			type: 'post',
-			dataType: 'json',
-			data: {
-				'sub_scenery_id' : '{$scenery.sub_scenery_id}',
-				'scenery_id' : '{$scenery.scenery_id}',
-				'sub_scenery_name' : $('#sub_scenery_name').val(),
-				'img_url':  img_url,
-				'audio_url':audio_url,
-				'article':$('#article').val()
-			}
-		})
-		.done(function(data){
-				location.href="__APP__/Admin/Index/sublist/scenery_id/"+'{$scenery.scenery_id}';
-		});
-}
+	function submit() {
+	    $.ajax({
+	            cache: false,
+	            url: '{:U("Admin/Index/subupdate/")}',
+	            type: 'post',
+	            dataType: 'json',
+	            data: {
+	                'sub_scenery_id': '{$scenery.sub_scenery_id}',
+	                'scenery_id': '{$scenery.scenery_id}',
+	                'sub_scenery_name': $('#sub_scenery_name').val(),
+	                'img_url': img_url,
+	                'logo_url': logo_url,
+	                'audio_url': audio_url,
+	                'article': $('#article').val()
+	            }
+	        })
+	        .done(function(data) {
+	            location.href = "__APP__/Admin/Index/sublist/scenery_id/" + '{$scenery.scenery_id}';
+	        });
+	}
 </script>
 </body>
+
 </html>
