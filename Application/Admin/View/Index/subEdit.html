@@ -105,7 +105,8 @@
 	                    saveName = saveName.substring(0, saveName.indexOf('.'));
 	                }
 	                $("#uploadimage").uploadify("settings", "formData", {
-	                    'saveName': saveName
+	                    'saveName': saveName,
+	                    'savePath':'image/'
 	                });
 	                //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
 	            },
@@ -142,19 +143,20 @@
 	                if (logo_url == '') {
 	                    saveName = new Date().getTime();
 	                } else {
-	                    saveName = logo_url.replace('__PUBLIC__/upload/image/', '');
+	                    saveName = logo_url.replace('__PUBLIC__/upload/logo/', '');
 	                    saveName = saveName.substring(0, saveName.indexOf('.'));
 	                }
 	                $("#uploadlogo").uploadify("settings", "formData", {
-	                    'saveName': saveName
+	                    'saveName': saveName,
+	                    'savePath':'logo/'
 	                });
 	                //在onUploadStart事件中，也就是上传之前，把参数写好传递到后台。  
 	            },
 	            onUploadSuccess: function(file, data, response) {
 	                var data = eval('(' + data + ')');
-	                console.log(data);
-	                $('#logo').html('<p><img width="80px" src="' + '__PUBLIC__/upload/image/' + data + '?id=' + Math.random() + '" /></p>');
-	                logo_url = '__PUBLIC__/upload/image/' + data;
+	                //console.log(data);
+	                $('#logo').html('<p><img width="80px" src="' + '__PUBLIC__/upload/logo/' + data + '?id=' + Math.random() + '" /></p>');
+	                logo_url = '__PUBLIC__/upload/logo/' + data;
 	            }
 	        });
 	    }, 10);
