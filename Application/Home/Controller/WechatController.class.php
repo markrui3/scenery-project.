@@ -43,7 +43,7 @@ class WechatController extends Controller {
 		switch ($eventtype['event']) {
 			case Wechat::EVENT_SUBSCRIBE: //关注事件
 				// $weObj->text("欢迎关注天津大学北洋教育发展基金会，目前正在进行的捐助项目（点击查看）\n1.<a href='http://mp.weixin.qq.com/s?__biz=MzAxMjM2Mjg3Mg==&mid=203697380&idx=1&sn=e9325105205d74e4e03349c48a84cb1b#rd'>求实会堂</a>")->reply();
-				$this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://peiyangedf.com/Public/sc/">点击进入网站</a>')->reply();
+				$this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://101.200.235.213/Public/sc/">点击进入网站</a>')->reply();
 				break;
 		}
 
@@ -62,7 +62,7 @@ class WechatController extends Controller {
 	            		$this->weObj->text("请检查您输入的编号是否正确")->reply();
 					}
 		    	} else {
-					$this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://peiyangedf.com/Public/sc/">点击进入网站</a>')->reply();
+					$this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://101.200.235.213/">点击进入网站</a>')->reply();
 		    	}
 	            exit();
 	            break;
@@ -79,7 +79,7 @@ class WechatController extends Controller {
 		//设置菜单
 		$newmenu = array(
 			"button" => array(
-				array("type" =>"view", 'name' => '景点介绍', 'url'=>'http://peiyangedf.com/Public/sc/')
+				array("type" =>"view", 'name' => '景点介绍', 'url'=>'http://101.200.235.213')
 			)
 		);
 
