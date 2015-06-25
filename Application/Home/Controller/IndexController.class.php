@@ -32,6 +32,8 @@ class IndexController extends Controller {
             die("请在微信中打开");
         }
 
+        $sign = $this->wechatController->getSign();
+        session('signPackage', $sign);
         $sub_scenery_id = I('get.sub_scenery_id');
         $Sub_scenery = M('sub_scenery');
         $sub_scenery_data= $Sub_scenery->where("sub_scenery_id=\"$sub_scenery_id\"")->select();

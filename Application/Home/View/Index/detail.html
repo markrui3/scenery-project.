@@ -9,7 +9,7 @@
         <img src="{$sub_scenery_detail.img_url}" class="img-header">
         <div class="btn-group sub-btn-group">
             <button class="btn btn-lg btn-primary" id="wxplayBtn"><span class="glyphicon glyphicon-play-circle"></span> 微信播放</button>
-            <button class="btn btn-lg btn-primary" id="downloadBtn"><span class="glyphicon glyphicon-download-alt"></span> 下载音频</button>
+            <button class="btn btn-lg btn-default" id="downloadBtn"><span class="glyphicon glyphicon-download-alt"></span> 下载音频</button>
         </div>
         <div class="divider"></div>
         <div class="sub-header">景点介绍</div>
@@ -19,6 +19,18 @@
     </div>
 </body>
 <script type="text/javascript">
+    // 添加订单成功,调用微信支付
+    wx.config({
+        debug: false,
+        appId: '{$Think.session.signPackage.appId}',
+        timestamp: {$Think.session.signPackage.timestamp},
+        nonceStr: '{$Think.session.signPackage.nonceStr}',
+        signature: '{$Think.session.signPackage.signature}',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'chooseWXPay'
+        ]
+    });
     $(document).ready(function() {
 
         $("#back-btn").on("click", function() {
@@ -26,7 +38,10 @@
         });
 
         $("#wxplayBtn").on('click', function () {
-            alert('请在微信中回复数字{$sub_scenery_detail.sub_scenery_id}');
+            var ok = confirm('请在微信中回复数字{$sub_scenery_detail.sub_scenery_id}');
+            if(ok){
+                wx.closeWindow();
+            }
             // $.ajax({
             //     url: baseUrl + '/Home/Wechat/sendVideo?id={$sub_scenery_detail.sub_scenery_id}',
             //     type: 'GET',

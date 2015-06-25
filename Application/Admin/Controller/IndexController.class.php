@@ -34,6 +34,13 @@ class IndexController extends Controller {
             $r['logo'] = '<img style="width:80px" src='.$r['logo_url'].' />';
             $r['download'] = '<a href='.U('/Admin/Index/download/key/'.$r['md5']).'>下载</a>';
             $r['operation'] = '<a href='.U('/Admin/Index/subedit/sub_scenery_id/'.$r['sub_scenery_id']).'>编辑</a>&nbsp;&nbsp;<a href="#" onclick="del(\''.$r['sub_scenery_id'].'\')">删除</a>';
+
+            $length = strlen($r['article']);
+            // var_dump($r['article']);
+            if($length > 60){
+                $r['article'] = mb_substr($r['article'], 0, 59, 'utf-8');
+                $r['article'] .= '...';
+            }
         }
         echo json_encode($result);
     }

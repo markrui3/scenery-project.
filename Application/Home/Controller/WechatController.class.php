@@ -4,8 +4,8 @@ use Think\Controller;
 use Com\TPWechat;
 use Com\Wechat;
 class WechatController extends Controller {
-	private $appid = "wxc835a06d89071c38";
-	private $appsecret = "7c1bed222ef426ae5a2a1ef114254c95";
+	private $appid = "wx7026ba0f2644177b";
+	private $appsecret = "f2c6fc8a340d416b4a5ef82ff07d01e6";
 	private $token = "tjuweixin";
 	private $encodingaeskey = "";
 	private $weObj;
@@ -24,26 +24,21 @@ class WechatController extends Controller {
 		$this->weObj->valid();//明文或兼容模式可以在接口验证通过后注释此句，但加密模式一定不能注释，否则会验证失败
 
 		// // Log::Write('type:'.$type, 'INFO');
-		// $news = array(
-		// 	0 => array(
-		// 			'Title'=>'欢迎关注天津大学北洋教育发展基金会',
-		// 	  		'Description'=>'',
-  // 					'PicUrl'=>'http://www.peiyangedf.com/Public/pic1.jpg',
-  // 					'Url'=>'http://mp.weixin.qq.com/s?__biz=MzAxMjM2Mjg3Mg==&mid=204105713&idx=1&sn=99f1ce8e320440ec3961a9657d26f656#rd'
-		// 		),
-		// 	1 => array(
-		// 			'Title'=>'求实会堂 - 捐赠',
-		// 	  		'Description'=>'',
-  // 					'PicUrl'=>'http://mmbiz.qpic.cn/mmbiz/xVq6XYRutPGn8BPeeuRWQ9ZIcFEb1bjrdShDbkyGFdTI1ib0ZoJibMkP8PpmceQJvCQ2BAwdibiaYbZORANIHqnSxQ/640?tp=webp&wxfrom=5',
-  // 					'Url'=>'http://www.peiyangedf.com'
-		// 		)
-		// 	);
+		$news = array(
+			0 => array(
+					'Title'=>'您好，精彩内容请点击',
+			  		'Description'=>'',
+  					'PicUrl'=>'',
+  					'Url'=>'http://www.listeningspace.cn'
+				)
+			);
 
 		$eventtype = $this->weObj->getRev()->getRevEvent();
 		switch ($eventtype['event']) {
 			case Wechat::EVENT_SUBSCRIBE: //关注事件
 				// $weObj->text("欢迎关注天津大学北洋教育发展基金会，目前正在进行的捐助项目（点击查看）\n1.<a href='http://mp.weixin.qq.com/s?__biz=MzAxMjM2Mjg3Mg==&mid=203697380&idx=1&sn=e9325105205d74e4e03349c48a84cb1b#rd'>求实会堂</a>")->reply();
-				$this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://101.200.235.213/Public/sc/">点击进入网站</a>')->reply();
+				$this->weObj->news($news)->reply();
+				// $this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://www.listeningspace.cn">点击进入网站</a>')->reply();
 				break;
 		}
 
@@ -62,7 +57,8 @@ class WechatController extends Controller {
 	            		$this->weObj->text("请检查您输入的编号是否正确")->reply();
 					}
 		    	} else {
-					$this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://101.200.235.213/">点击进入网站</a>')->reply();
+					$this->weObj->news($news)->reply();
+					// $this->weObj->text('欢迎关注景点介绍微信平台,<a href="http://101.200.235.213/">点击进入网站</a>')->reply();
 		    	}
 	            exit();
 	            break;
@@ -71,7 +67,8 @@ class WechatController extends Controller {
 		    case Wechat::MSGTYPE_IMAGE:
 		            break;
 		    default:
-	            $this->weObj->text("help info")->reply();
+	            // $this->weObj->text("help info")->reply();
+				$this->weObj->news($news);
 		}
 
 		//获取菜单操作:
@@ -79,7 +76,7 @@ class WechatController extends Controller {
 		//设置菜单
 		$newmenu = array(
 			"button" => array(
-				array("type" =>"view", 'name' => '景点介绍', 'url'=>'http://101.200.235.213')
+				array("type" =>"view", 'name' => '景点介绍', 'url'=>'http://www.listeningspace.cn')
 			)
 		);
 
@@ -87,7 +84,10 @@ class WechatController extends Controller {
 	}
 
 	public function oauth(){
-		$this->weObj->oauth();
+		// $this->weObj->oauth();
+		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+			session('openid', 1);
+		}
 	}
 
 	public function sendVideo($id){
@@ -117,14 +117,14 @@ class WechatController extends Controller {
 			'touser' => $openid,
 			'msgtype' => 'music',
 			'music' => array(
-				'title' => 'test', 
+				'title' => 'test',
 				'description' => '1111',
 				'musicurl' => $r['audio_url'],
 				'hqmusicurl' => $r['audio_url']
 			)
 		);
 
-		var_dump($data);
+		// var_dump($data);
 		$r1 = $this->weObj->sendCustomMessage($data);
 
 		// var_dump($token);
@@ -138,5 +138,14 @@ class WechatController extends Controller {
 		}
 
 		echo json_encode($result);
+	}
+
+	public function getSign(){
+		// 注意 URL 一定要动态获取，不能 hardcode.
+	    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+	    $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+	    $signPackage = $this->weObj->getJsSign($url);
+	    return $signPackage;
 	}
 }
